@@ -1,0 +1,15 @@
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\obj\Debug\net8.0\PokemonApi.Application.csproj.AssemblyReference.cache
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\obj\Debug\net8.0\PokemonApi.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\obj\Debug\net8.0\PokemonApi.Application.AssemblyInfoInputs.cache
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\obj\Debug\net8.0\PokemonApi.Application.AssemblyInfo.cs
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\obj\Debug\net8.0\PokemonApi.Application.csproj.CoreCompileInputs.cache
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\bin\Debug\net8.0\PokemonApi.Application.deps.json
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\bin\Debug\net8.0\PokemonApi.Application.dll
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\bin\Debug\net8.0\PokemonApi.Application.pdb
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\bin\Debug\net8.0\PokemonApi.Domain.dll
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\bin\Debug\net8.0\PokemonApi.Domain.pdb
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\obj\Debug\net8.0\PokemonApi.Application.csproj.CopyComplete
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\obj\Debug\net8.0\PokemonApi.Application.dll
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\obj\Debug\net8.0\refint\PokemonApi.Application.dll
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\obj\Debug\net8.0\PokemonApi.Application.pdb
+C:\Users\Franc\source\repos\PokemonApiSolution\PokemonApi.Application\obj\Debug\net8.0\ref\PokemonApi.Application.dll

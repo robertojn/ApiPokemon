@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\PokemonApi.WebApi.props" />
+</Project>

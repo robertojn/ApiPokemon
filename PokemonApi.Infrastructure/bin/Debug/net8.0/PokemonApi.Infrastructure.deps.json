@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "PokemonApi.Infrastructure/1.0.0": {
+        "dependencies": {
+          "PokemonApi.Domain": "1.0.0"
+        },
+        "runtime": {
+          "PokemonApi.Infrastructure.dll": {}
+        }
+      },
+      "PokemonApi.Domain/1.0.0": {
+        "runtime": {
+          "PokemonApi.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PokemonApi.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PokemonApi.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
