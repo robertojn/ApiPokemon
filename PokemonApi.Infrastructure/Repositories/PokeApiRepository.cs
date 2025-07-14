@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using PokemonApi.Domain.DTOs;
 using PokemonApi.Domain.Exceptions;
 using PokemonApi.Domain.Repositories;
+using PokemonApi.Infrastructure.Mappers;
 using PokemonApi.Infrastructure.Repositories;
 
 
@@ -42,14 +43,14 @@ namespace PokemonApi.Infrastructure.Repositories
 
                 var pokeApiResponse = await response.Content.ReadFromJsonAsync<PokeApiResponse>();
 
-                //mapeia o json
-                return new PokemonDto
+                if (pokeApiResponse is null)
                 {
-                    Name = pokeApiResponse.Name,
-                    Height = pokeApiResponse.Height,
-                    Weight = pokeApiResponse.Weight,
-                    Types = pokeApiResponse.Types.Select(t => t.Type.Name).ToList()
-                };
+                    throw new ExternalServiceException("Resposta inválida da PokéAPI: não foi possível desserializar o conteúdo.");
+                }
+
+                return PokeApiMapper.ToPokemonDto(pokeApiResponse);
+
+
             }
             catch (HttpRequestException ex)
             {
