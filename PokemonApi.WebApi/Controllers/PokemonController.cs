@@ -16,9 +16,14 @@ namespace PokemonApi.WebApi.Controllers
         }
 
         [HttpGet("{name}")]
-        public async Task<IActionResult> GetByName(string name)
+        public async Task<IActionResult> GetByName([FromRoute]string? name)
         {
-            var pokemon = await _pokemonService.GetPokemonByNameAsync(name);
+            if(string.IsNullOrWhiteSpace(name))
+            {
+                return BadRequest(new { error = "O parametro name 'name' é obrigatorio e não pode estar vazio" });
+            }
+
+            var pokemon = await _pokemonService.GetPokemonByNameAsync(name.Trim()) ;
             return Ok(pokemon);
         }
 

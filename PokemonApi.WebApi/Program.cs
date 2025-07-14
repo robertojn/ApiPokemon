@@ -2,6 +2,7 @@ using PokemonApi.Application.Services;
 using PokemonApi.Domain.Repositories;
 using PokemonApi.Domain.Services;
 using PokemonApi.Infrastructure.Repositories;
+using PokemonApi.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
