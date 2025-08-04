@@ -10,7 +10,9 @@ using PokemonApi.Domain.DTOs;
 using PokemonApi.Domain.Exceptions;
 using PokemonApi.Domain.Repositories;
 using PokemonApi.Infrastructure.Mappers;
+using PokemonApi.Infrastructure.PokeApi;
 using PokemonApi.Infrastructure.Repositories;
+using Refit;
 
 
 
@@ -20,11 +22,11 @@ namespace PokemonApi.Infrastructure.Repositories
     public class PokeApiRepository : IPokemonRepository
 
     {
-        private readonly HttpClient _httpClient;
+        private readonly IPokeApi _pokeApi;
 
-        public PokeApiRepository(HttpClient httpClient)
+        public PokeApiRepository(IPokeApi pokeApi)
         {
-            _httpClient = httpClient;
+            _pokeApi = pokeApi;
         }
 
         public async Task<PokemonDto> GetPokemonByNameAsync(string name)
@@ -32,35 +34,19 @@ namespace PokemonApi.Infrastructure.Repositories
             try
             {
                 //chama a pokeApi real
-                var response = await _httpClient.GetAsync($"https://pokeapi.co/api/v2/pokemon/{name.ToLower()}");
+                var response = await _pokeApi.GetPokemonAsync(name.ToLower());
 
-                if (response.StatusCode == HttpStatusCode.NotFound)
-                {
-                    throw new NotFoundException($"Pokemon '{name}' não encontrado.");
-                }
-
-                response.EnsureSuccessStatusCode();
-
-                var pokeApiResponse = await response.Content.ReadFromJsonAsync<PokeApiResponse>();
-
-                if (pokeApiResponse is null)
-                {
-                    throw new ExternalServiceException("Resposta inválida da PokéAPI: não foi possível desserializar o conteúdo.");
-                }
-
-                return PokeApiMapper.ToPokemonDto(pokeApiResponse);
-
+                return PokeApiMapper.ToPokemonDto(response);
 
             }
-            catch (HttpRequestException ex)
+            catch (ApiException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
             {
-                throw new ExternalServiceException("Erro ao acessar a PokéAPI.", ex);
+                throw new NotFoundException($"Pokemon '{name}' não encontrado.");
             }
-
-
-
-
+            catch (Exception ex)
+            {
+                throw new ExternalServiceException("Erro ao acessar a PokéAPI", ex);
+            }
         }
-
     }
 }

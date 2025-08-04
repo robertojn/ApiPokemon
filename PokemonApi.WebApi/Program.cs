@@ -1,8 +1,10 @@
 using PokemonApi.Application.Services;
 using PokemonApi.Domain.Repositories;
 using PokemonApi.Domain.Services;
+using PokemonApi.Infrastructure.PokeApi;
 using PokemonApi.Infrastructure.Repositories;
 using PokemonApi.WebApi;
+using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +15,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services
+    .AddRefitClient<IPokeApi>()
+    .ConfigureHttpClient(c =>
+    {
+        c.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
+    });
+
 builder.Services.AddScoped<IPokemonRepository, PokeApiRepository>();
 builder.Services.AddScoped<IPokemonService, PokemonService>();
-builder.Services.AddHttpClient();
 
 
 var app = builder.Build();

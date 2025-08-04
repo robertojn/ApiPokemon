@@ -1,59 +1,61 @@
 ﻿using Moq;
-using Moq.Protected;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
+using PokemonApi.Infrastructure.PokeApi; 
 using PokemonApi.Infrastructure.Repositories;
 using PokemonApi.Domain.Exceptions;
+using Refit;
 
 namespace PokemonApi.Tests
 {
     public class PokeApiRepositoryTests
     {
-        //Criando Httpclient com um handler mockado
-        private HttpClient CriarHttpClient(HttpResponseMessage reponse)
-        {
-            var handlerMock = new Mock<HttpMessageHandler>();
-            handlerMock.Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync",
-                ItExpr.IsAny<HttpRequestMessage>(),
-                ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(reponse);
-
-            return new HttpClient(handlerMock.Object);
-        }
-
         [Fact]
         public async Task GetPokemonByNameAsync_DeveRetornarPokemon_QuandoSucesso()
         {
-            var json = @"{""name"":""pikachu"",""height"":4,""weight"":60,""types"":[{""type"":{""name"":""electric""}}]}";
-            var reponse = new HttpResponseMessage(HttpStatusCode.OK)
+            var respostaApi = new PokeApiResponse
             {
-                Content = new StringContent(json)
+                Name = "pikachu",
+                Height = 4,
+                Weight = 60,
+                Types = new()
+                {
+                    new PokeApiResponse.TypeSlot
+                    {
+                        Type = new PokeApiResponse.TypeInfo { Name = "electric" }
+                    }
+                }
+            };
 
-        };
-            var client = CriarHttpClient(reponse);
-            var repo = new PokeApiRepository(client);
-            
+            var apiMock = new Mock<IPokeApi>();
+            apiMock.Setup(x => x.GetPokemonAsync(It.Is<string>(s => s == "pikachu")))
+                   .ReturnsAsync(respostaApi);
+
+            var repo = new PokeApiRepository(apiMock.Object);
+
             var resultado = await repo.GetPokemonByNameAsync("pikachu");
 
             Assert.Equal("pikachu", resultado.Name);
             Assert.Single(resultado.Types);
         }
-
         [Fact]
         public async Task GetPokemonByNameAsync_DeveLancarNotFoundException_QuandoNaoEncontrado()
         {
-            var response = new HttpResponseMessage(HttpStatusCode.NotFound);
-            var client = CriarHttpClient(response);
-            var repo = new PokeApiRepository(client);
+            var apiEx = await ApiException.Create(
+                new HttpRequestMessage(HttpMethod.Get, "https://pokeapi.co/api/v2/pokemon/Desconhecido"), 
+                HttpMethod.Get,                                                                         
+                new HttpResponseMessage(HttpStatusCode.NotFound),                                        
+                new RefitSettings()                                                                       
+            );
+
+            var apiMock = new Mock<IPokeApi>();
+            apiMock.Setup(x => x.GetPokemonAsync(It.IsAny<string>()))
+                   .ThrowsAsync(apiEx);
+
+            var repo = new PokeApiRepository(apiMock.Object);
 
             await Assert.ThrowsAsync<NotFoundException>(
                 () => repo.GetPokemonByNameAsync("Desconhecido"));
         }
-
     }
 }
