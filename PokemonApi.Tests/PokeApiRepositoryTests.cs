@@ -27,7 +27,6 @@ namespace PokemonApi.Tests
             };
 
             var apiMock = new Mock<IPokeApi>();
-            // Inclui o segundo parâmetro CancellationToken na configuração
             apiMock.Setup(x => x.GetPokemonAsync(
                     It.Is<string>(s => s == "pikachu"),
                     It.IsAny<CancellationToken>()))
@@ -35,7 +34,6 @@ namespace PokemonApi.Tests
 
             var repo = new PokeApiRepository(apiMock.Object);
 
-            // Passa explicitamente o CancellationToken para clareza (opcional, pois ct tem valor default)
             var resultado = await repo.GetPokemonByNameAsync("pikachu", CancellationToken.None);
 
             Assert.Equal("pikachu", resultado.Name);

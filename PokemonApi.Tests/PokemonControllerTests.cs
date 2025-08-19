@@ -16,7 +16,6 @@ public class PokemonControllerTests
         var senderMock = new Mock<ISender>();
         var controller = new PokemonController(senderMock.Object);
 
-        // Passa CancellationToken.None explicitamente
         var result = await controller.GetByName(" ", CancellationToken.None);
 
         Assert.IsType<BadRequestObjectResult>(result);

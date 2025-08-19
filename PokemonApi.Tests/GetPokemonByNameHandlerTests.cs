@@ -16,7 +16,6 @@ public class GetPokemonByNameHandlerTests
         var repoMock = new Mock<IPokemonRepository>();
         var dto = new PokemonDto { Name = "pikachu", /* ... */ };
 
-        // Note o segundo parâmetro CancellationToken na configuração.
         repoMock.Setup(r => r.GetPokemonByNameAsync("pikachu", It.IsAny<CancellationToken>()))
                 .ReturnsAsync(dto);
 
