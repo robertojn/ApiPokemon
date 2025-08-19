@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PokemonApi.Infrastructure.Repositories
+﻿namespace PokemonApi.Infrastructure.Repositories
 {
     public class PokeApiResponse
     {
@@ -22,8 +16,7 @@ namespace PokemonApi.Infrastructure.Repositories
         public class TypeInfo
         {
             public string Name { get; set; } = string.Empty;
-        }   
+        }
     }
 
 }
-     

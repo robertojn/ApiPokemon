@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PokemonApi.Domain.Services;
+using PokemonApi.Application.Queries;
 
 namespace PokemonApi.WebApi.Controllers
 {
@@ -8,23 +8,25 @@ namespace PokemonApi.WebApi.Controllers
     [Route("api/[controller]")]
     public class PokemonController : ControllerBase
     {
-        private readonly IPokemonService _pokemonService;
+        private readonly ISender _sender;
 
-        public PokemonController(IPokemonService pokemonService)
+        public PokemonController(ISender sander)
         {
-            _pokemonService = pokemonService;
+            _sender = sander;
+
         }
 
         [HttpGet("{name}")]
-        public async Task<IActionResult> GetByName([FromRoute]string? name)
+        public async Task<IActionResult> GetByName([FromRoute] string? name, CancellationToken ct)
         {
-            if(string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
-                return BadRequest(new { error = "O parametro name 'name' é obrigatorio e não pode estar vazio" });
+                return BadRequest(new { error = "O parametro 'name' é obrigatorio e não pode estar vazio" });
             }
 
-            var pokemon = await _pokemonService.GetPokemonByNameAsync(name.Trim()) ;
-            return Ok(pokemon);
+            var Query = new GetPokemonByNameQuery(name);
+            var result = await _sender.Send(Query, ct);
+            return Ok(result);
         }
 
     }
