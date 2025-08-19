@@ -1,6 +1,6 @@
-using PokemonApi.Application.Services;
+
+using PokemonApi.Application.Queries;
 using PokemonApi.Domain.Repositories;
-using PokemonApi.Domain.Services;
 using PokemonApi.Infrastructure.PokeApi;
 using PokemonApi.Infrastructure.Repositories;
 using PokemonApi.WebApi;
@@ -11,6 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(GetPokemonByNameHandler).Assembly));
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -23,8 +29,6 @@ builder.Services
     });
 
 builder.Services.AddScoped<IPokemonRepository, PokeApiRepository>();
-builder.Services.AddScoped<IPokemonService, PokemonService>();
-
 
 var app = builder.Build();
 

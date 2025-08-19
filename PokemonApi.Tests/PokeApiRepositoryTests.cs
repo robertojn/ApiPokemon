@@ -1,10 +1,9 @@
 ﻿using Moq;
-using System.Net;
-using System.Threading.Tasks;
-using PokemonApi.Infrastructure.PokeApi; 
-using PokemonApi.Infrastructure.Repositories;
 using PokemonApi.Domain.Exceptions;
+using PokemonApi.Infrastructure.PokeApi;
+using PokemonApi.Infrastructure.Repositories;
 using Refit;
+using System.Net;
 
 namespace PokemonApi.Tests
 {
@@ -42,10 +41,10 @@ namespace PokemonApi.Tests
         public async Task GetPokemonByNameAsync_DeveLancarNotFoundException_QuandoNaoEncontrado()
         {
             var apiEx = await ApiException.Create(
-                new HttpRequestMessage(HttpMethod.Get, "https://pokeapi.co/api/v2/pokemon/Desconhecido"), 
-                HttpMethod.Get,                                                                         
-                new HttpResponseMessage(HttpStatusCode.NotFound),                                        
-                new RefitSettings()                                                                       
+                new HttpRequestMessage(HttpMethod.Get, "https://pokeapi.co/api/v2/pokemon/Desconhecido"),
+                HttpMethod.Get,
+                new HttpResponseMessage(HttpStatusCode.NotFound),
+                new RefitSettings()
             );
 
             var apiMock = new Mock<IPokeApi>();

@@ -9,7 +9,7 @@ namespace PokemonApi.WebApi
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-        public ExceptionHandlingMiddleware (RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
         {
             _next = next;
             _logger = logger;
@@ -20,7 +20,7 @@ namespace PokemonApi.WebApi
             try
             {
                 await _next(context);
-            }        
+            }
             catch (NotFoundException ex)
             {
                 _logger.LogWarning(ex, "NotFoundException");
@@ -28,8 +28,8 @@ namespace PokemonApi.WebApi
             }
             catch (ExternalServiceException ex)
             {
-                _logger.LogError(ex, "ExternalServiceException"); 
-                await HandleExceptionAsync (context, ex.Message, HttpStatusCode.BadGateway);
+                _logger.LogError(ex, "ExternalServiceException");
+                await HandleExceptionAsync(context, ex.Message, HttpStatusCode.BadGateway);
             }
             catch (Exception ex)
             {

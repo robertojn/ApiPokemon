@@ -1,10 +1,7 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Xunit;
-using PokemonApi.WebApi.Controllers;
-using PokemonApi.Domain.Services;
 using PokemonApi.Domain.DTOs;
+using PokemonApi.WebApi.Controllers;
 
 namespace PokemonApi.Tests
 {

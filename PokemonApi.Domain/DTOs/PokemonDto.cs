@@ -1,10 +1,10 @@
-﻿namespace PokemonApi.Domain.DTOs
+﻿namespace PokemonApi.Domain.DTOs;
+
+public sealed class PokemonDto
 {
-    public class PokemonDto
-    {
-        public string Name { get; set; }
-        public List<string> Types { get; set; }
-        public int Height { get; set; }
-        public int Weight { get; set; }
-    }
+    public string Name { get; init; } = string.Empty;
+    public IReadOnlyList<string> Types { get; init; } = Array.Empty<string>();
+    public int Height { get; init; }
+    public int Weight { get; init; }
 }
+
