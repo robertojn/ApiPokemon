@@ -18,25 +18,30 @@ namespace PokemonApi.Tests
                 Height = 4,
                 Weight = 60,
                 Types = new()
-                {
-                    new PokeApiResponse.TypeSlot
-                    {
-                        Type = new PokeApiResponse.TypeInfo { Name = "electric" }
-                    }
-                }
+        {
+            new PokeApiResponse.TypeSlot
+            {
+                Type = new PokeApiResponse.TypeInfo { Name = "electric" }
+            }
+        }
             };
 
             var apiMock = new Mock<IPokeApi>();
-            apiMock.Setup(x => x.GetPokemonAsync(It.Is<string>(s => s == "pikachu")))
+            // Inclui o segundo parâmetro CancellationToken na configuração
+            apiMock.Setup(x => x.GetPokemonAsync(
+                    It.Is<string>(s => s == "pikachu"),
+                    It.IsAny<CancellationToken>()))
                    .ReturnsAsync(respostaApi);
 
             var repo = new PokeApiRepository(apiMock.Object);
 
-            var resultado = await repo.GetPokemonByNameAsync("pikachu");
+            // Passa explicitamente o CancellationToken para clareza (opcional, pois ct tem valor default)
+            var resultado = await repo.GetPokemonByNameAsync("pikachu", CancellationToken.None);
 
             Assert.Equal("pikachu", resultado.Name);
             Assert.Single(resultado.Types);
         }
+
         [Fact]
         public async Task GetPokemonByNameAsync_DeveLancarNotFoundException_QuandoNaoEncontrado()
         {
@@ -44,17 +49,17 @@ namespace PokemonApi.Tests
                 new HttpRequestMessage(HttpMethod.Get, "https://pokeapi.co/api/v2/pokemon/Desconhecido"),
                 HttpMethod.Get,
                 new HttpResponseMessage(HttpStatusCode.NotFound),
-                new RefitSettings()
-            );
+                new RefitSettings());
 
             var apiMock = new Mock<IPokeApi>();
-            apiMock.Setup(x => x.GetPokemonAsync(It.IsAny<string>()))
+            apiMock.Setup(x => x.GetPokemonAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                    .ThrowsAsync(apiEx);
 
             var repo = new PokeApiRepository(apiMock.Object);
 
             await Assert.ThrowsAsync<NotFoundException>(
-                () => repo.GetPokemonByNameAsync("Desconhecido"));
+                () => repo.GetPokemonByNameAsync("Desconhecido", CancellationToken.None));
         }
+
     }
 }
