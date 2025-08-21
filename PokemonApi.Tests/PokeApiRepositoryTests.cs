@@ -4,6 +4,7 @@ using PokemonApi.Infrastructure.PokeApi;
 using PokemonApi.Infrastructure.Repositories;
 using Refit;
 using System.Net;
+using Xunit;
 
 namespace PokemonApi.Tests
 {
