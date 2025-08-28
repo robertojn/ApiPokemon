@@ -36,8 +36,6 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 //Minimal
 app.MapPokemonEndpoints();
 

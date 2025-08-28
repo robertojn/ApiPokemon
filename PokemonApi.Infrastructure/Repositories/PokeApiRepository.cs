@@ -24,7 +24,7 @@ public class PokeApiRepository : IPokemonRepository
         {
             //chama a pokeApi real
             var response = await _pokeApi.GetPokemonAsync(name.ToLower(), ct);
-            return PokeApiMapper.ToPokemonDto(response);
+            return response.ToPokemonDto();
 
         }
         catch (ApiException ex) when (ex.StatusCode == HttpStatusCode.NotFound)

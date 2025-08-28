@@ -6,7 +6,7 @@ namespace PokemonApi.Infrastructure.Mappers
 {
     public static class PokeApiMapper
     {
-        public static PokemonDto ToPokemonDto(PokeApiResponse response)
+        public static PokemonDto ToPokemonDto(this PokeApiResponse response)
         {
             return new PokemonDto
             {
