@@ -11,15 +11,10 @@ public static class PokemonEndpoints
     {
         // agrupando todas as rotas de Pokémon sob /api/pokemon
         var group = endpoints.MapGroup("/api/pokemon")
-                             .WithTags("Pokémon"); 
+                             .WithTags("Pokémon");
 
-        
-        group.MapGet("{name}", GetPokemonByName)
-             .WithName("GetPokemonByName")
-             .Produces<Ok<PokemonDto>>(StatusCodes.Status200OK)
-             .Produces<BadRequest<string>>(StatusCodes.Status400BadRequest)
-             .Produces(StatusCodes.Status404NotFound);
-
+        group.MapGet("{name}", GetPokemonByName);
+            
         return group;
     }
 
