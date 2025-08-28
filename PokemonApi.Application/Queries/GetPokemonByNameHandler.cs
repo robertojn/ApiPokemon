@@ -12,11 +12,9 @@ public sealed class GetPokemonByNameHandler : IRequestHandler<GetPokemonByNameQu
     {
         _repository = repository;
     }
- //teste
+ 
     public async Task<PokemonDto> Handle(GetPokemonByNameQuery request, CancellationToken ct)
     {
-        await Task.Delay(20_000, ct);
-
         if (string.IsNullOrWhiteSpace(request.name))
             throw new ArgumentException("Nome inválido.", nameof(request.name));
 
